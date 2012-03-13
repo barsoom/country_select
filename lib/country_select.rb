@@ -32,13 +32,15 @@ module ActionView
     end
 
     class InstanceTag
+      include ActionView::Helpers::OutputSafetyHelper
+      
       def to_country_select_tag(priority_countries, options, html_options)
         html_options = html_options.stringify_keys
         add_default_name_and_id(html_options)
         value = value(object)
         content_tag("select",
           add_options(
-            country_options_for_select(value, priority_countries),
+            raw(country_options_for_select(value, priority_countries)),
             options, value
           ), html_options
         )
